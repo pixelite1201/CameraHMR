@@ -123,9 +123,10 @@ class DatasetTrain(Dataset):
         item['gt_body_verts'] = smplx_output_gt.body_verts[0].detach()
         item['gt_vertices'] = smplx_output_gt.vertices[0].detach()
 
-        item['translation'] = self.cam_ext[index][:, 3]
+        translation = self.cam_ext[index][:, 3].copy()
         if 'trans_cam' in self.data.files:
-            item['translation'][:3] += self.trans_cam[index]
+            translation[:3] += self.trans_cam[index]
+        item['translation'] = translation
 
         img_patch_rgba, \
         img_patch_cv, \
