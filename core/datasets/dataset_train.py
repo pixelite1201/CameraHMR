@@ -92,9 +92,11 @@ class DatasetTrain(Dataset):
                     'betas': self.betas[index].astype(np.float32)
                     }
         item['smpl_params'] = smpl_params
-        item['translation'] = self.cam_ext[index][:, 3]
+        translation = self.cam_ext[index][:, 3].copy()
         if 'trans_cam' in self.data.files:
-            item['translation'][:3] += self.trans_cam[index]
+            translation[:3] += self.trans_cam[index]
+        item['translation'] = translation
+
         img_patch_rgba = None
         img_patch_cv = None
         img_patch_rgba, \
